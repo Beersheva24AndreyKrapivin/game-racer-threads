@@ -23,7 +23,7 @@ public class Racer extends Thread {
     @Override
     public void run() {
         int minSleep = race.getMinSleep();
-	    int maxSleep = race.getMaxSleep();
+        int maxSleep = race.getMaxSleep();
         int distance = race.getDistance();
         Random random = new Random();
 
@@ -34,17 +34,17 @@ public class Racer extends Thread {
                 Thread.sleep(random.nextInt(minSleep, maxSleep + 1));
                 System.out.println("Racer #" + number);
             } catch (InterruptedException e) {
-                
+
             }
         }
 
-        fillWinnerList();
+        synchronized (race) {
+            fillWinnerList();
+        }
     }
 
     private void fillWinnerList() {
-        synchronized(race) {
-            race.listWinner.add(this);
-            finishTime = System.currentTimeMillis();
-        }
+        race.listWinner.add(this);
+        finishTime = System.currentTimeMillis();
     }
 }
