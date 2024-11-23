@@ -13,15 +13,10 @@ public class Main {
     static Race race;
 
     public static void main(String[] args) {
-        // Runs CLI game's menu with allowing the user to enter number of racers and a
-        // distance (number of iterations)
-        // Creates Race
-        // Runs Racers (Threads)
-        // Prints out the Racer-winner number
         Item[] items = {
-            Item.of("Enter race's parametres", Main::getRaceParametres),
-            Item.of("Start race", Main::startRace),
-            Item.ofExit()
+                Item.of("Enter race's parametres", Main::getRaceParametres),
+                Item.of("Start race", Main::startRace),
+                Item.ofExit()
         };
         Menu menu = new Menu("Game racer", items);
         menu.perform(new StandartInputOutput());
@@ -37,7 +32,13 @@ public class Main {
         race = new Race(distance);
         startThreads(racers);
         waitThreadsFinishing(racers);
-        System.out.println("Congratiulation to Racer (" + race.getWinner() + " - winner)");
+        printRezult();
+    }
+
+    private static void printRezult() {
+        for (int i = 0; i < race.listWinner.size(); i++) {
+            System.out.println("Place # " + (i + 1) + " - racer " + race.listWinner.get(i).getNumber() + ". Running time = " + (race.listWinner.get(i).getFinishTime() - race.startTime.get()));
+        }
     }
 
     private static void startThreads(Racer[] threads) {
