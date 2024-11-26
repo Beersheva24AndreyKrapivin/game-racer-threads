@@ -1,5 +1,6 @@
 package telran.multithreading;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
@@ -10,7 +11,7 @@ public class Race {
     private int distance;
 
     AtomicInteger winner = new AtomicInteger(-1);
-    LinkedList<Racer> listWinner = new LinkedList<>();
+    ArrayList<Racer> listWinner = new ArrayList<>();
     AtomicLong startTime = new AtomicLong(-1);
 
     public Race(int distance) {

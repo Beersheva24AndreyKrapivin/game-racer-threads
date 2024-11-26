@@ -32,12 +32,12 @@ public class Racer extends Thread {
         for (int i = 0; i < distance; i++) {
             try {
                 Thread.sleep(random.nextInt(minSleep, maxSleep + 1));
-                System.out.println("Racer #" + number);
+                //System.out.println("Racer #" + number);
             } catch (InterruptedException e) {
 
             }
         }
-
+        //finishTime = System.currentTimeMillis();
         synchronized (race) {
             fillWinnerList();
         }

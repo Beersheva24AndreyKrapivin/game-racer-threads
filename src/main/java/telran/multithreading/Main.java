@@ -1,5 +1,7 @@
 package telran.multithreading;
 
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import telran.view.InputOutput;
@@ -8,6 +10,8 @@ import telran.view.Menu;
 import telran.view.StandartInputOutput;
 
 public class Main {
+    private static final int N_THREADS = 3000;
+    private static final int N_ITERATION = 1000;
     static int numberOfRaces;
     static int distance;
     static Race race;
@@ -23,8 +27,8 @@ public class Main {
     }
 
     static void getRaceParametres(InputOutput io) {
-        numberOfRaces = io.readInt("Enter number of racers", "Wrong data");
-        distance = io.readInt("Enter distance", "Wrong data");
+        numberOfRaces = N_THREADS;// io.readInt("Enter number of racers", "Wrong data");
+        distance = N_ITERATION;// io.readInt("Enter distance", "Wrong data");
     }
 
     static void startRace(InputOutput io) {
@@ -32,12 +36,23 @@ public class Main {
         race = new Race(distance);
         startThreads(racers);
         waitThreadsFinishing(racers);
-        printRezult();
+        ArrayList<Racer> resultTable = race.listWinner;
+        int count = 0;
+        for (int i = 1; i < N_THREADS; i++) {
+            long previousFinishTime = resultTable.get(i-1).getFinishTime();
+            long currentFinishTime = resultTable.get(i).getFinishTime();
+            if (previousFinishTime > currentFinishTime) {
+                count++;
+            }
+        }
+        System.out.println("inconsistency cases count = " + count);
+        //printRezult();
     }
 
     private static void printRezult() {
         for (int i = 0; i < race.listWinner.size(); i++) {
-            System.out.println("Place # " + (i + 1) + " - racer " + race.listWinner.get(i).getNumber() + ". Running time = " + (race.listWinner.get(i).getFinishTime() - race.startTime.get()));
+            System.out.println("Place # " + (i + 1) + " - racer " + race.listWinner.get(i).getNumber()
+                    + ". Running time = " + (race.listWinner.get(i).getFinishTime() - race.startTime.get()));
         }
     }
 
